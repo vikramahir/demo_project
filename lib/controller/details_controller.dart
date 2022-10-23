@@ -7,7 +7,9 @@ class DetailsController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    finalCount.value = Get.arguments['count'] ?? 121;
+    if(Get.arguments != null) {
+      finalCount.value = Get.arguments['count'] ?? 121;
+    }
     super.onInit();
   }
 }

@@ -13,6 +13,6 @@ class DashboardController extends GetxController {
   }
 
   goToDetails() {
-    Get.toNamed(NameRoutes.detailsScreen, );
+    Get.toNamed(NameRoutes.detailsScreen, arguments: {'count': counter.value});
   }
 }
