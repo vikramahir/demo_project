@@ -1,4 +1,5 @@
 import 'package:demo_project/controller/dashboard_controller.dart';
+import 'package:demo_project/model/movie_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,32 +12,71 @@ class DashboardScreen extends GetView<DashboardController> {
       appBar: AppBar(
         title: const Text('Dashboard'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Obx(
+        () => controller.isLoading.isTrue
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : _movieList(),
+      ),
+
+    );
+  }
+
+  Widget _movieList() {
+    return ListView.builder(
+      itemCount: controller.movieData.entries.length,
+      itemBuilder: (context, index) {
+        return _movieItem(index);
+      },
+    ).marginSymmetric(vertical: 5.0, horizontal: 5.0);
+  }
+
+  Widget _movieItem(int index) {
+    Entries entries = controller.movieData.entries[index];
+    return GestureDetector(
+      onTap: ()=>{controller.goToDetails(entries)},
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 100,
+              width: 75,
+              decoration: BoxDecoration(
+                color: const Color(0xff7c94b6),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg'),
+                  fit: BoxFit.cover,
+                ),
+                border: Border.all(
+                  width: 0,
+                ),
+                borderRadius: BorderRadius.circular(3),
+              ),
             ),
-            Obx(() => Text(
-                  '${controller.counter}',
-                  style: Theme.of(context).textTheme.headline4,
-                )),
             const SizedBox(
-              height: 50.0,
+              width: 10.0,
             ),
-            TextButton(
-              onPressed: controller.goToDetails,
-              child: const Text('Click me'),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Category : ${entries.Category}'),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Text('Description : ${entries.Description}'),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -19,6 +19,10 @@ class DetailsScreen extends GetView<DetailsController> {
               '${controller.finalCount}',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Text(
+              controller.entries.value.Category,
+              style: Theme.of(context).textTheme.headline4,
+            ),
           ],
         ),
       ),
