@@ -1,7 +1,7 @@
+import 'package:demo_project/api/rest_client.dart';
 import 'package:demo_project/model/movie_data.dart';
 import 'package:demo_project/routes/name_routes.dart';
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 
 class DashboardController extends GetxController {
   RxInt counter = 0.obs;
@@ -13,14 +13,17 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    getHttp();
+    _getHttp();
     super.onInit();
   }
 
-  void getHttp() async {
+  final _restClient = RestClient('https://api.publicapis.org/');
+
+  void _getHttp() async {
     try {
       isLoading.value = true;
-      var response = await Dio().get('https://api.publicapis.org/entries');
+
+      var response = await _restClient.get(path: 'entries');
       isLoading.value = false;
       movieData = MovieData.fromJson(response.data);
       print(response);
@@ -31,6 +34,7 @@ class DashboardController extends GetxController {
   }
 
   goToDetails(Entries entries) {
-    Get.toNamed(NameRoutes.detailsScreen, arguments: {'count': counter.value,'entries' : entries});
+    Get.toNamed(NameRoutes.detailsScreen,
+        arguments: {'count': counter.value, 'entries': entries});
   }
 }
