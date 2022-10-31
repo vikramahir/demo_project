@@ -17,7 +17,7 @@ class DashboardController extends GetxController {
     super.onInit();
   }
 
-  final _restClient = RestClient('https://api.publicapis.org/');
+  final _restClient = RestClient();
 
   void _getHttp() async {
     try {

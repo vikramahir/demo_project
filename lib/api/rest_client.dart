@@ -1,13 +1,13 @@
 import 'package:demo_project/utils/CustomInterceptors.dart';
+import 'package:demo_project/utils/constant.dart';
 import 'package:dio/dio.dart';
 
 class RestClient {
-  final _endPoint;
   late Dio _dio;
 
-  RestClient(this._endPoint) {
+  RestClient() {
     var options = BaseOptions(
-      baseUrl: _endPoint,
+      baseUrl: Constant.baseURL,
     );
     _dio = Dio(options);
     _dio.interceptors.add(CustomInterceptors());
@@ -19,5 +19,16 @@ class RestClient {
     Map<String, dynamic>? headers,
   }) {
     return _dio.get(path, queryParameters: data).then((value) => value);
+  }
+
+
+  Future<Response<dynamic>> post({
+    required String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+
+  }) {
+    return _dio.post(path, data : data, queryParameters: queryParameters).then((value) => value);
   }
 }
