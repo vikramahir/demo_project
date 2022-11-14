@@ -37,7 +37,7 @@ class DashboardScreen extends GetView<DashboardController> {
     return GestureDetector(
       onTap: ()=>{controller.goToDetails(entries)},
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        margin:const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
