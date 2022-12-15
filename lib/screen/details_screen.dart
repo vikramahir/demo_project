@@ -12,20 +12,14 @@ class DetailsScreen extends GetView<DetailsController> {
         title: const Text('Detail page'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '${controller.finalCount}',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text(
-              controller.entries.value.Category,
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Container(
+          height: 100.0,
+          width: 100.0,
+          color: Colors.red,
         ),
       ),
     );
   }
+
+  Widget getUserUI({required User user}) => Text(user.name);
 }

@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:demo_project/routes/name_routes.dart';
 import 'package:demo_project/routes/page_routes.dart';
-import 'package:demo_project/screen/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -43,7 +42,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 5), () {
-        Get.toNamed(NameRoutes.dashboard,);
+      Get.toNamed(
+        NameRoutes.dashboard,
+      );
     });
     return const Scaffold(
       body: Center(child: Text('Splash screen')),

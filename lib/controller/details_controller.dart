@@ -14,4 +14,21 @@ class DetailsController extends GetxController {
     }
     super.onInit();
   }
+
+}
+
+class User {
+  User();
+
+  late final String name;
+
+  User.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['name'] = name;
+    return _data;
+  }
 }
