@@ -2,8 +2,12 @@ import 'package:demo_project/controller/dashboard_controller.dart';
 import 'package:demo_project/model/movie_data.dart';
 import 'package:demo_project/utils/adaptive/adaptive_base_widget.dart';
 import 'package:demo_project/utils/adaptive/adaptive_widgets/adaptive_grid.dart';
+import 'package:demo_project/utils/appbars/glorifi_appbar.dart';
+import 'package:demo_project/utils/constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -11,17 +15,65 @@ class DashboardScreen extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-      ),
+      appBar: kIsWeb
+          ? null
+          : AppBar(
+              title: Text(
+                'Dashboard',
+                style: TextStyle(fontSize: 18.sp),
+              ),
+            ),
+      bottomNavigationBar: Constant.bottomNavigationBar,
       body: AdaptiveBuilder(builder: (context, sizeInfo) {
-        return Obx(
-          () => controller.isLoading.isTrue
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : _movieList(),
-        );
+        if (sizeInfo.isTablet) {
+          return Column(
+            children: [
+              Visibility(
+                visible: kIsWeb && sizeInfo.screenSize.width > 600,
+                child: WebAppBar(sizingInformation: sizeInfo),
+              ),
+              Visibility(
+                visible: kIsWeb,
+                child: WebHeader(sizingInformation: sizeInfo),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.green,
+                  padding: EdgeInsets.all(20.r),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'isTablet',
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else if (sizeInfo.isDesktop) {
+          return Column(
+            children: [
+              WebAppBar(sizingInformation: sizeInfo),
+              WebHeader(sizingInformation: sizeInfo),
+              Expanded(
+                child: Container(
+                  color: Colors.yellow,
+                  padding: EdgeInsets.all(20.r),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'isDesktop',
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Obx(
+            () => controller.isLoading.isTrue
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : _movieList(),
+          );
+        }
       }),
     );
   }
@@ -45,15 +97,14 @@ class DashboardScreen extends GetView<DashboardController> {
               child: GestureDetector(
                 onTap: () => {controller.goToDetails(entries)},
                 child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 100,
-                        width: 75,
+                        height: 100.h,
+                        width: 75.w,
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: const DecorationImage(
@@ -75,11 +126,17 @@ class DashboardScreen extends GetView<DashboardController> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Category : ${entries.Category}'),
+                            Text(
+                              'Category : ${entries.Category}',
+                              style: TextStyle(fontSize: 18.sp),
+                            ),
                             const SizedBox(
                               height: 5.0,
                             ),
-                            Text('Description : ${entries.Description}'),
+                            Text(
+                              'Description : ${entries.Description}',
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
                           ],
                         ),
                       ),
