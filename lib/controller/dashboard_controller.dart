@@ -1,6 +1,7 @@
 import 'package:demo_project/api/rest_client.dart';
 import 'package:demo_project/model/movie_data.dart';
 import 'package:demo_project/routes/name_routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
@@ -34,7 +35,46 @@ class DashboardController extends GetxController {
   }
 
   goToDetails(Entries entries) {
-    Get.toNamed(NameRoutes.detailsScreen,
-        arguments: {'count': counter.value, 'entries': entries});
+    // Get.toNamed(NameRoutes.detailsScreen,
+    //     arguments: {'count': counter.value, 'entries': entries});
+    _verifyUserPhoneNumber(entries);
+  }
+
+  void _verifyUserPhoneNumber(Entries entries) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String number = '+918238823001';
+    print('----------==========> $number');
+    try {
+      auth.verifyPhoneNumber(
+        phoneNumber: number,
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          // closeProgressDialog();
+          print(e);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          print(verificationId);
+          Get.toNamed(NameRoutes.detailsScreen,
+              arguments: {'count': counter.value, 'entries': entries,
+                    'mobileNumber': number,
+                     'otp': 123456,
+                     'verificationId': verificationId,
+                     });
+          // Get.toNamed(
+          //   NameRoutes.optScreen,
+          //   arguments: {
+          //     'mobileNumber': mapData['data']['mobile_no'],
+          //     'otp': mapData['data']['otp'],
+          //     'verificationId': verificationId,
+          //   },
+          // );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          print(verificationId);
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

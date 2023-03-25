@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:demo_project/routes/name_routes.dart';
 import 'package:demo_project/routes/page_routes.dart';
+import 'package:demo_project/utils/push_notification_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -49,6 +54,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PushNotificationService().initialise();
     Timer(const Duration(seconds: 5), () {
       Get.toNamed(
         NameRoutes.dashboard,

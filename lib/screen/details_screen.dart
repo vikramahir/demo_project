@@ -16,6 +16,7 @@ class DetailsScreen extends GetView<DetailsController> {
           height: 100.0,
           width: 100.0,
           color: Colors.red,
+          child: Text(controller.entries.value.Category.toString()),
         ),
       ),
     );

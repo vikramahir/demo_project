@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class Constant {
   static String baseURL = 'https://api.publicapis.org/';
@@ -112,5 +113,21 @@ class Constant {
 
   static int sub(int x, int y) {
     return x - y;
+  }
+
+  customSnackbar({required String title, required String des}) {
+    Get.snackbar(
+      title,
+      des,
+      titleText: Text(title),
+      messageText: Text(des),
+      maxWidth: double.infinity,
+      snackPosition: SnackPosition.BOTTOM,
+      borderRadius: 20.r,
+      margin: EdgeInsets.all(15.r),
+      duration: const Duration(seconds: 3),
+      isDismissible: true,
+      forwardAnimationCurve: Curves.easeOutBack,
+    );
   }
 }
