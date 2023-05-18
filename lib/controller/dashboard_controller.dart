@@ -43,7 +43,6 @@ class DashboardController extends GetxController {
   void _verifyUserPhoneNumber(Entries entries) {
     FirebaseAuth auth = FirebaseAuth.instance;
     String number = '+918238823001';
-    print('----------==========> $number');
     try {
       auth.verifyPhoneNumber(
         phoneNumber: number,
